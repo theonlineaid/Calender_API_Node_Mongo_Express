@@ -1,0 +1,135 @@
+{
+	"info": {
+		"_postman_id": "c67793b5-a71f-4cad-bc40-ca7a2f96a4bb",
+		"name": "Calender Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41561527"
+	},
+	"item": [
+		{
+			"name": "Get Event",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/myevents?start=2025-08-10&end=2025-08-30",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"myevents"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "2025-08-10"
+						},
+						{
+							"key": "end",
+							"value": "2025-08-30"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Event",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"updateScope\": \"allEvents\",\r\n  \"title\": \"Team Standup 2 Updated\",\r\n  \"description\": \"Updated daily sync meeting\",\r\n  \"startTime\": \"2025-08-10T10:00:00.000Z\",\r\n  \"endTime\": \"2025-08-10T10:30:00.000Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/events/689a503b470c4b0ae6bd484a",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"events",
+						"689a503b470c4b0ae6bd484a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Event",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Team Standup 2\",\r\n  \"description\": \"Daily sync meeting\",\r\n  \"startTime\": \"2025-08-10T09:00:00.000Z\",\r\n  \"endTime\": \"2025-08-10T09:30:00.000Z\",\r\n  \"participants\": [\"66b1fae2a8b9c4dca06d53f2\"],\r\n  \"recurrence\": {\r\n    \"freq\": \"weekly\",\r\n    \"interval\": 1,\r\n    \"endDate\": \"2025-08-30T23:59:59.000Z\"\r\n  }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/events",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Event with  mode",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/events/689a4d72470c4b0ae6bd4843?mode=thisEvent",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"events",
+						"689a4d72470c4b0ae6bd4843"
+					],
+					"query": [
+						{
+							"key": "mode",
+							"value": "thisEvent"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

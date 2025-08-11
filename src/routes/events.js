@@ -11,8 +11,10 @@ const mockAuth = require('../middleware/mockAuth');
 const checkEventPermission = require('../middleware/checkEventPermission');
 
 router.post('/events', createEvent);
-router.get('/myevents', getMyEvents);
-router.put('/events/:eventId', updateEvent);
-router.delete('/events/:eventId', deleteEvent);
+router.get('/myevents', mockAuth, getMyEvents);
+router.put('/events/:eventId', mockAuth, checkEventPermission, updateEvent);
+
+// http://localhost:5000/api/events/689a4d72470c4b0ae6bd4843?mode=thisEvent
+router.delete('/events/:eventId', mockAuth, checkEventPermission, deleteEvent);
 
 module.exports = router;
