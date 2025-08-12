@@ -200,4 +200,83 @@ A Postman collection is included in the repo to test the APIs easily.
 or, Check this link
 * [Collection](https://documenter.getpostman.com/view/41561527/2sB3BEoqWY)
 
+
+## 🗄️ Database Schemas
+
+### **User Schema**
+
+```js
+const mongoose = require('mongoose');
+
+const userSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { 
+    type: String, 
+    required: true, 
+    unique: true, 
+    match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email']
+  },
+  role: { 
+    type: String, 
+    enum: ['user', 'admin'], 
+    default: 'user' 
+  }
+}, { timestamps: true });
+
+module.exports = mongoose.model('User', userSchema);
+```
+
+**Explanation**
+
+* `name` → User's display name.
+* `email` → Unique and validated email address.
+* `role` → Used for permission control (`user` or `admin`).
+* Automatic `createdAt` and `updatedAt` fields with `timestamps`.
+
+---
+
+### **Event Schema**
+
+```js
+const mongoose = require('mongoose');
+
+const recurrenceSchema = new mongoose.Schema({
+  freq: {
+    type: String,
+    enum: ['none', 'daily', 'weekly', 'monthly'],
+    default: 'none'
+  },
+  interval: { type: Number, default: 1 }, // every X days/weeks/months
+  endDate: { type: Date },                 // when recurrence stops
+  byWeekday: [{ type: String }]            // e.g. ['MO', 'WE', 'FR'] for weekly
+}, { _id: false });
+
+const eventSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  description: { type: String },
+  startTime: { type: Date, required: true },
+  endTime: { type: Date, required: true },
+  participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+
+  recurrence: recurrenceSchema,  // Recurrence pattern
+  exDates: [{ type: Date }],     // Exception dates to skip
+  seriesId: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' }, // Master event ID for series
+
+  creator: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  isSeriesMaster: { type: Boolean, default: false }
+}, { timestamps: true });
+
+module.exports = mongoose.model('Event', eventSchema);
+```
+
+**Explanation**
+
+* `title` / `description` → Event details.
+* `startTime` / `endTime` → Event timing.
+* `participants` → Array of user IDs.
+* `recurrence` → Nested object defining repeat pattern.
+* `exDates` → Dates to skip in recurrence.
+* `seriesId` → Used to link recurring events together.
+* `creator` → User who created the event.
+* `isSeriesMaster` → Marks the first/main event in a series.
 ---
